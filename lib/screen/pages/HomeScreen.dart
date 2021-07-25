@@ -27,19 +27,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       body: getBody(),
       bottomNavigationBar: getFooter(),
       //other params,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          selectedTab(4);
-        },
-        child: Icon(
-          Icons.add,
-          size: 25,
+      floatingActionButton: Visibility(
+        visible: !keyboardIsOpen,
+        child: FloatingActionButton(
+          onPressed: () {
+            selectedTab(4);
+          },
+          child: Icon(
+            Icons.add,
+            size: 25,
+          ),
+          backgroundColor: primary,
         ),
-        backgroundColor: primary,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

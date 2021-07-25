@@ -46,25 +46,21 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void submitDataRegister() async {
-    
-    var result = await db.saveUser(
-      User.fromMap({
-        'username': _usernameController.text,
-        'name': _nameController.text,
-        'password': _passwordController.text
-      })
-    );
+    var result = await db.saveUser(User.fromMap({
+      'username': _usernameController.text,
+      'name': _nameController.text,
+      'password': _passwordController.text
+    }));
 
-    if (result != 0) { 
+    if (result != 0) {
       Fluttertoast.showToast(
-        msg: 'Register success !',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 24
-      );
+          msg: 'Register success !',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 24);
     }
 
     _usernameController.clear();
@@ -98,32 +94,42 @@ class _RegisterFormState extends State<RegisterForm> {
                             fontWeight: FontWeight.bold, fontSize: 24),
                       ),
                     ),
-
-                    Image.asset(
-                        'assets/images/image_1.png',
-                        width: widget.size.width * 0.80),
-                    
-                    SizedBox(
-                      height: 40,
-                    ),
-
+                    Image.asset('assets/images/image_1.png',
+                        width: widget.size.width * 0.70),
                     Form(
                       key: _formKey,
                       child: Column(
                         children: [
-                          RoundedInput(usernameController: _usernameController, iconData: Icons.email, hintData: 'Username',),
-                          
-                          RoundedInput(usernameController: _nameController,  iconData: Icons.face_rounded, hintData: 'Name',),
-
-                          RoundedPasswordInput(passwordController: _passwordController, hintData: 'Password', iconData: Icons.lock),
+                          RoundedInput(
+                            usernameController: _usernameController,
+                            iconData: Icons.email,
+                            hintData: 'Username',
+                          ),
+                          SizedBox(
+                            height: widget.size.height * 0.02,
+                          ),
+                          RoundedInput(
+                            usernameController: _nameController,
+                            iconData: Icons.face_rounded,
+                            hintData: 'Name',
+                          ),
+                          SizedBox(
+                            height: widget.size.height * 0.02,
+                          ),
+                          RoundedPasswordInput(
+                              passwordController: _passwordController,
+                              hintData: 'Password',
+                              iconData: Icons.lock),
                         ],
                       ),
                     ),
-
-                    
+                    SizedBox(
+                      height: widget.size.height * 0.02,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: RoundedButton(actionPressed: actionRegister, title: 'SIGN UP'),
+                      child: RoundedButton(
+                          actionPressed: actionRegister, title: 'SIGN UP'),
                     )
                   ],
                 ),
@@ -135,4 +141,3 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 }
-

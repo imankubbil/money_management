@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_management/colors.dart';
 import 'package:money_management/components/rounded_button.dart';
+import 'package:money_management/components/text_field_border_bottom.dart';
 import 'package:money_management/utils/db_helper.dart';
 
 class CreateCategoryScreen extends StatefulWidget {
@@ -47,9 +48,7 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
         Container(
           decoration: BoxDecoration(color: white, boxShadow: [
             BoxShadow(
-                color: grey.withOpacity(0.05),
-                spreadRadius: 10,
-                blurRadius: 3),
+                color: grey.withOpacity(0.05), spreadRadius: 10, blurRadius: 3),
           ]),
           child: Padding(
             padding:
@@ -101,79 +100,97 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
                       width: size.width * 0.8),
                 ),
               ),
-              SizedBox(height: 10,),
-              Container(
-                width: double.infinity,
-                height: size.height / 3.2,
-                decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.01),
-                        spreadRadius: 10,
-                        blurRadius: 3,
-                      )
-                    ]),
-                child: Column(children: [
-                  SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Category name",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            color: Color(0xff67727d)),
-                      ),
-                      TextField(
-                        controller: _categoryName,
-                        cursorColor: black,
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: black),
-                        decoration: InputDecoration(
-                            hintText: "Enter Category Name",
-                            border: InputBorder.none),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        "Percent",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            color: Color(0xff67727d)),
-                      ),
-                      TextField(
-                        controller: _percent,
-                        cursorColor: black,
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: black),
-                        decoration: InputDecoration(
-                            hintText: "Enter Saldo",
-                            border: InputBorder.none),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: RoundedButton(
-                              actionPressed: submitCategory, title: 'Save'),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                ],)
+              SizedBox(
+                height: 10,
               ),
+              Container(
+                  width: double.infinity,
+                  // height: size.height / 3.2,
+                  decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.01),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                        )
+                      ]),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Category name",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13,
+                                    color: Color(0xff67727d)),
+                              ),
+                              TextFormBorderBottom(
+                                controller: _categoryName,
+                                hintData: "category name",
+                                hintText: "Enter Category Name",
+                              ),
+                              // TextField(
+                              //   controller: _categoryName,
+                              //   cursorColor: black,
+                              //   style: TextStyle(
+                              //       fontSize: 17,
+                              //       fontWeight: FontWeight.bold,
+                              //       color: black),
+                              //   decoration: InputDecoration(
+                              //       hintText: "Enter Category Name",
+                              //       border: InputBorder.none),
+                              // ),
+                              SizedBox(height: 20),
+                              Text(
+                                "Percent",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13,
+                                    color: Color(0xff67727d)),
+                              ),
+                              TextFormBorderBottom(
+                                controller: _percent,
+                                hintData: "saldo",
+                                hintText: "Enter Saldo",
+                              ),
+                              // TextField(
+                              //   controller: _percent,
+                              //   cursorColor: black,
+                              //   style: TextStyle(
+                              //       fontSize: 17,
+                              //       fontWeight: FontWeight.bold,
+                              //       color: black),
+                              //   decoration: InputDecoration(
+                              //       hintText: "Enter Saldo",
+                              //       border: InputBorder.none),
+                              // ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: RoundedButton(
+                                      actionPressed: submitCategory,
+                                      title: 'Save'),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
             ],
           ),
         )

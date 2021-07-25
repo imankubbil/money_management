@@ -145,10 +145,12 @@ class _LoginFormState extends State<LoginForm> {
                               usernameController: _usernameController,
                               hintData: 'Username',
                               iconData: Icons.mail),
+                          SizedBox(height: widget.size.height * 0.02,),
                           RoundedPasswordInput(
                               passwordController: _passwordController,
                               hintData: 'Password',
                               iconData: Icons.lock),
+                          SizedBox(height: widget.size.height * 0.02,),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: RoundedButton(actionPressed: actionLogin, title: 'SIGN IN'),
