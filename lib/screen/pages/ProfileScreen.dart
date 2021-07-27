@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:money_management/colors.dart';
+import 'package:money_management/models/bank.dart';
+import 'package:money_management/utils/db_helper.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -10,6 +13,37 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  DatabaseHelper db = DatabaseHelper();
+  String name = "";
+  String username = "";
+  Bank? _bank;
+
+  Future<void> getDataPref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      name = pref.getString('name')!;
+      username = pref.getString('username')!;
+      // _bank = bank;
+
+      // print(_bank);
+      print('username 1 $username');
+      getDateBank();
+    });
+  }
+
+  Future<void> getDateBank() async {
+      print('username $username');
+      _bank = await db.getBank(username);
+      print('bank $_bank');
+    // print(_bank);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataPref();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Profile",
+                        "Profile ",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -94,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Nur Iman",
+                              name,
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -104,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 10,
                             ),
                             Text(
-                              'Credit score: Rp. 450.000',
+                              'Saldo: Rp. '+_bank!.saldo,
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -138,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Bank Central Asia",
+                                _bank!.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12,
@@ -146,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               SizedBox(height: 10,),
-                              Text("Rp. 450.000", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: white)),
+                              Text("Rp. "+_bank!.saldo, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: white)),
                             ],
                           ),
                         ],
@@ -161,4 +195,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
 }

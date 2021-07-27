@@ -5,12 +5,9 @@ import 'package:money_management/screen/pages/CreateCategoryScreen.dart';
 import 'package:money_management/screen/pages/BankScreen.dart';
 import 'package:money_management/screen/pages/LogoutScreen.dart';
 import 'package:money_management/screen/pages/ProfileScreen.dart';
-// import 'package:money_management/screen/pages/StatsScreen.dart';
 import 'package:money_management/screen/pages/TransactionScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  // const HomeScreen({ Key? key }) : super(key: key);
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

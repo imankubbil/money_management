@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:money_management/colors.dart';
 import 'package:money_management/components/rounded_button.dart';
 import 'package:money_management/components/text_field_border_bottom.dart';
+import 'package:money_management/models/bank.dart';
+import 'package:money_management/screen/pages/HomeScreen.dart';
 import 'package:money_management/utils/db_helper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BankScreen extends StatefulWidget {
   const BankScreen({Key? key}) : super(key: key);
@@ -15,20 +19,62 @@ class _BankScreenState extends State<BankScreen> {
   TextEditingController _bankName = TextEditingController();
   TextEditingController _saldo = TextEditingController();
 
+  String username = "";
   DatabaseHelper db = DatabaseHelper();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
-  Future<void> submitCategory() async {
-    print("test");
+  Future<void> getDataPref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      username = pref.getString('username')!;
+    });
+
+  }
+
+  Future<void> submitBank() async {
     final form = _formKey.currentState;
-    print(form);
     if (form!.validate()) {
       form.save();
       isLoading = true;
       setState(() {});
-      // submitDataRegister();
+      submitDataBank();
     }
+  }
+
+  Future<void> submitDataBank() async {
+    var result = await db.saveBank(Bank.fromMap({
+      'name': _bankName.text,
+      'saldo': _saldo.text,
+      'username': username
+    }));
+
+    if (result != 0) {
+      Fluttertoast.showToast(
+          msg: 'Add Bank success !',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 24);
+    }
+
+    _bankName.clear();
+    _saldo.clear();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>  
+          HomeScreen()
+      )
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataPref();
   }
 
   @override
@@ -157,7 +203,7 @@ class _BankScreenState extends State<BankScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: RoundedButton(
-                                      actionPressed: submitCategory,
+                                      actionPressed: submitBank,
                                       title: 'Save'),
                                 ),
                               ),

@@ -3,6 +3,7 @@ import 'package:money_management/components/roounded_password_input.dart';
 import 'package:money_management/components/rounded_button.dart';
 import 'package:money_management/components/rounded_input.dart';
 import 'package:money_management/models/user.dart';
+import 'package:money_management/screen/login/LoginScreen.dart';
 import 'package:money_management/utils/db_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -36,7 +37,6 @@ class _RegisterFormState extends State<RegisterForm> {
   void actionRegister() {
     final form = _formKey.currentState;
 
-    print(form);
     if (form!.validate()) {
       form.save();
       isLoading = true;
@@ -66,6 +66,13 @@ class _RegisterFormState extends State<RegisterForm> {
     _usernameController.clear();
     _nameController.clear();
     _passwordController.clear();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>  
+          LoginScreen()
+      )
+    );
   }
 
   @override

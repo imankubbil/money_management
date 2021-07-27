@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:money_management/colors.dart';
 import 'package:money_management/components/rounded_button.dart';
 import 'package:money_management/components/text_field_border_bottom.dart';
+import 'package:money_management/models/category.dart';
 import 'package:money_management/utils/db_helper.dart';
 
 class CreateCategoryScreen extends StatefulWidget {
@@ -20,7 +22,7 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
-  void submitCategory() {
+  Future<void> submitCategory() async {
     final form = _formKey.currentState;
 
     print(form);
@@ -28,8 +30,31 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
       form.save();
       isLoading = true;
       setState(() {});
-      // submitDataRegister();
+      submitDataCategory();
     }
+  }
+
+  Future<void> submitDataCategory() async {
+    var result = await db.saveCategory(Category.fromMap({
+      'name': _categoryName.text,
+      'percent': _percent.text
+    }));
+
+    print(result);
+
+    if (result != 0) {
+      Fluttertoast.showToast(
+          msg: 'Add Category success !',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 24);
+    }
+
+    _categoryName.clear();
+    _percent.clear();
   }
 
   @override
@@ -159,8 +184,8 @@ class _CreateCategoryScreenState extends State<CreateCategoryScreen> {
                               ),
                               TextFormBorderBottom(
                                 controller: _percent,
-                                hintData: "saldo",
-                                hintText: "Enter Saldo",
+                                hintData: "percent",
+                                hintText: "Enter Percent",
                               ),
                               // TextField(
                               //   controller: _percent,

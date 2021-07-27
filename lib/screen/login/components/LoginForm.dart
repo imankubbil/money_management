@@ -37,10 +37,9 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
-  void actionLogin() {
+  Future<void> actionLogin() async {
     final form = _formKey.currentState;
 
-    print(form);
     if (form!.validate()) {
       form.save();
       isLoading = true;
@@ -49,14 +48,16 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  void submitDataLogin() async {
+  Future<void> submitDataLogin() async {
 
     var result = await db.checkLogin(
       _usernameController.text,
       _passwordController.text
     );
 
-  setState(() {
+    print(result);
+
+    setState(() {
       isLoading = false;
     });
 
@@ -78,14 +79,14 @@ class _LoginFormState extends State<LoginForm> {
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.grey,
         textColor: Colors.white,
         fontSize: 24
       );
     } 
   }
 
-  void getDataPref() async {
+  Future<void> getDataPref() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setInt('login', 0);
     setState(() {
@@ -93,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-  void saveDataPref({String? username, String? name}) async {
+  Future<void> saveDataPref({String? username, String? name}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     int login = 1;
     pref.setInt('login', login);
